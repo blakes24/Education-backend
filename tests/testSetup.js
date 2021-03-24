@@ -6,25 +6,25 @@ const testData = fs
   .readFileSync(path.resolve(__dirname, "./testData.sql"))
   .toString();
 
-async function commonBeforeAll() {
+async function seedDatabase() {
   await db.query(testData);
 }
 
-async function commonBeforeEach() {
+async function beginTransaction() {
   await db.query("BEGIN");
 }
 
-async function commonAfterEach() {
+async function rollbackTransaction() {
   await db.query("ROLLBACK");
 }
 
-async function commonAfterAll() {
+async function endTransaction() {
   await db.end();
 }
 
 module.exports = {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
+  seedDatabase,
+  beginTransaction,
+  rollbackTransaction,
+  endTransaction,
 };

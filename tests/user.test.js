@@ -1,16 +1,16 @@
 const db = require("../db.js");
 const User = require("../models/user.js");
 const {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
+  seedDatabase,
+  beginTransaction,
+  rollbackTransaction,
+  endTransaction,
 } = require("./testSetup");
 
-beforeAll(commonBeforeAll);
-beforeEach(commonBeforeEach);
-afterEach(commonAfterEach);
-afterAll(commonAfterAll);
+beforeAll(seedDatabase);
+beforeEach(beginTransaction);
+afterEach(rollbackTransaction);
+afterAll(endTransaction);
 
 /************************************** authenticate */
 
