@@ -1,5 +1,7 @@
+"use strict";
+
 const db = require("../db.js");
-var fs = require("fs");
+const fs = require("fs");
 const path = require("path");
 
 const testData = fs

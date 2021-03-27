@@ -1,3 +1,5 @@
+"use strict";
+
 /** Error with status code added */
 
 class ExpressError extends Error {

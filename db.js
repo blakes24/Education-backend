@@ -1,3 +1,5 @@
+"use strict";
+
 /** Database for education */
 
 const pg = require("pg");

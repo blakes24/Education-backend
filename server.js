@@ -1,3 +1,5 @@
+"use strict";
+
 /** Server for education. */
 
 const app = require("./app");

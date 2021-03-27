@@ -1,3 +1,5 @@
+"use strict";
+
 /** Express app for education. */
 
 const express = require("express");
@@ -16,6 +18,7 @@ app.use(cors());
 //logging
 app.use(morgan("dev"));
 
+/** POST /login:  { email, password } => { token, user } */
 app.post(
   "/login",
   body("email").isEmail(),
