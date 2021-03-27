@@ -24,7 +24,7 @@ function authenticateJWT(req, res, next) {
 
 function ensureAdmin(req, res, next) {
   try {
-    if (!res.locals.user || !res.locals.user.isAdmin) {
+    if (!res.locals.user || !res.locals.user.admin) {
       throw new ExpressError("Not authorized", 403);
     }
     return next();

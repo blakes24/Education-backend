@@ -6,9 +6,9 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const ExpressError = require("./expressError");
-const { body, validationResult } = require("express-validator");
-const User = require("./models/user");
-const { createToken } = require("./helpers");
+const { authenticateJWT } = require("./middleware/auth");
+const unitRoutes = require("./routes/unitRoutes");
+const loginRoute = require("./routes/loginRoute");
 
 const app = express();
 
@@ -18,26 +18,12 @@ app.use(cors());
 //logging
 app.use(morgan("dev"));
 
-/** POST /login:  { email, password } => { token, user } */
-app.post(
-  "/login",
-  body("email").isEmail(),
-  body("password").isLength({ min: 7 }),
-  async function (req, res, next) {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        throw new ExpressError("Invalid email/password", 401);
-      }
-      const { email, password } = req.body;
-      const user = await User.authenticate(email, password);
-      const token = createToken(user);
-      return res.json({ token, user });
-    } catch (err) {
-      return next(err);
-    }
-  }
-);
+app.use("/login", loginRoute);
+
+app.use(authenticateJWT);
+
+app.use("/unit", unitRoutes);
+
 
 /** Handle 404 errors */
 app.use(function (req, res, next) {
