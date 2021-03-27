@@ -2,6 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("./config");
+const ExpressError = require("./expressError");
 
 /** return JWT with userId and admin. */
 
@@ -17,7 +18,12 @@ function createToken(user) {
 /** return payload if token is verified. */
 
 function verifyToken(token) {
-  return jwt.verify(token, SECRET_KEY);
+  try {
+    const payload = jwt.verify(token, SECRET_KEY);
+    return payload;
+  } catch (err) {
+    throw new ExpressError("Invalid token", 401);
+  }
 }
 
 module.exports = { createToken, verifyToken };
