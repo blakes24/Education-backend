@@ -8,12 +8,23 @@ const {
   beginTransaction,
   rollbackTransaction,
   endTransaction,
+  testJwt,
+  adminJwt,
 } = require("./testSetup");
 
 beforeAll(seedDatabase);
 beforeEach(beginTransaction);
 afterEach(rollbackTransaction);
 afterAll(endTransaction);
+
+const unitData = {
+  subjectId: 1,
+  number: 1,
+  title: "Test",
+  startDate: "2021-03-25",
+  endDate: "2021-04-25",
+  reviewDate: "2021-04-28",
+};
 
 /************************************** POST /login */
 
@@ -50,5 +61,32 @@ describe("POST /login", function () {
       password: "nope",
     });
     expect(resp.statusCode).toEqual(401);
+  });
+});
+
+/************************************** POST /unit */
+
+describe("POST /unit", function () {
+  test("works", async function () {
+    const resp = await request(app)
+      .post("/unit")
+      .send(unitData)
+      .set("authorization", `Bearer ${adminJwt}`);
+    expect(resp.body).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        subjectId: 1,
+        number: 1,
+        title: "Test",
+      })
+    );
+  });
+
+  test("unauth with non-admin", async function () {
+    const resp = await request(app)
+      .post("/unit")
+      .send(unitData)
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.statusCode).toEqual(403);
   });
 });

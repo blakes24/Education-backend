@@ -1,14 +1,12 @@
 "use strict";
 
-const jwt = require("jsonwebtoken");
 const { authenticateJWT, ensureAdmin } = require("../middleware/auth");
+const { testJwt, badJwt, endTransaction } = require("./testSetup");
 
-const { SECRET_KEY } = require("../config");
-const testJwt = jwt.sign({ userId: 1, isAdmin: false }, SECRET_KEY);
-const badJwt = jwt.sign({ userId: 2, isAdmin: false }, "wrong");
+afterAll(endTransaction);
 
 describe("authenticateJWT", function () {
-  test("works: via header", function () {
+  test("works with header", function () {
     expect.assertions(2);
     const req = { headers: { authorization: `Bearer ${testJwt}` } };
     const res = { locals: {} };
@@ -20,7 +18,7 @@ describe("authenticateJWT", function () {
       user: {
         iat: expect.any(Number),
         userId: 1,
-        isAdmin: false,
+        admin: false,
       },
     });
   });
@@ -50,7 +48,7 @@ describe("ensureAdmin", function () {
   test("works", function () {
     expect.assertions(1);
     const req = {};
-    const res = { locals: { user: { userId: 1, isAdmin: true } } };
+    const res = { locals: { user: { userId: 1, admin: true } } };
     const next = function (err) {
       expect(err).toBeFalsy();
     };
@@ -60,7 +58,7 @@ describe("ensureAdmin", function () {
   test("unauth if not admin", function () {
     expect.assertions(1);
     const req = {};
-    const res = { locals: { user: { userId: 1, isAdmin: false } } };
+    const res = { locals: { user: { userId: 1, admin: false } } };
     const next = function (err) {
       expect(err).toBeTruthy();
     };

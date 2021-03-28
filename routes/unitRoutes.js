@@ -19,7 +19,7 @@ const router = new express.Router();
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
     const unit = await Unit.create(req.body);
-    return res.status(201).json({ unit });
+    return res.status(201).json(unit);
   } catch (err) {
     return next(err);
   }
