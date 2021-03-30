@@ -1,6 +1,14 @@
+"use strict";
+
 const db = require("../db.js");
-var fs = require("fs");
+const fs = require("fs");
 const path = require("path");
+const { SECRET_KEY } = require("../config");
+const jwt = require("jsonwebtoken");
+
+const testJwt = jwt.sign({ userId: 1, admin: false }, SECRET_KEY);
+const adminJwt = jwt.sign({ userId: 4, admin: true }, SECRET_KEY);
+const badJwt = jwt.sign({ userId: 2, admin: false }, "wrong");
 
 const testData = fs
   .readFileSync(path.resolve(__dirname, "./testData.sql"))
@@ -27,4 +35,7 @@ module.exports = {
   beginTransaction,
   rollbackTransaction,
   endTransaction,
+  testJwt,
+  badJwt,
+  adminJwt,
 };

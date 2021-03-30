@@ -1,3 +1,5 @@
+"use strict";
+
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const ExpressError = require("../expressError");
@@ -15,12 +17,12 @@ class User {
     // find the user
     const result = await db.query(
       `SELECT id,
-      email,
-                password,
-                first_name AS "firstName",
-                last_name AS "lastName",
-                school_id AS "schoolId",
-                admin
+              email,
+              password,
+              first_name AS "firstName",
+              last_name AS "lastName",
+              school_id AS "schoolId",
+              admin
            FROM users
            WHERE email = $1`,
       [email]
