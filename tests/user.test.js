@@ -45,3 +45,34 @@ describe("authenticate", function () {
     }
   });
 });
+
+describe("getSubjects", function () {
+  test("works", async function () {
+    const subjects = await User.getSubjects(1);
+    expect(subjects.length).toEqual(3);
+    expect(subjects[0]).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        name: expect.any(String),
+        grade: expect.any(String),
+        units: expect.any(Array)
+      })
+    );
+  });
+
+  test("404 if user does not exist", async function () {
+    try {
+      await await User.getSubjects(99);
+    } catch (err) {
+      expect(err.status).toEqual(404);
+    }
+  });
+
+  test("404 if user has no subjects", async function () {
+    try {
+      await await User.getSubjects(5);
+    } catch (err) {
+      expect(err.status).toEqual(404);
+    }
+  });
+});
