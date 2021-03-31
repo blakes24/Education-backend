@@ -35,12 +35,7 @@ class Unit {
             start_date AS "startDate",
             end_date AS "endDate",
             review_date AS "reviewDate",
-            objectives,
-            standards,
-            formative,
-            summative,
-            collaboration,
-            reflection,
+            details,
             completed`,
       [subjectId, number, title, startDate, endDate, reviewDate]
     );
