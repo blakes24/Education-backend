@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS subjects CASCADE;
 
 DROP TABLE IF EXISTS users_subjects CASCADE;
 
+DROP TABLE IF EXISTS units CASCADE;
+
 CREATE TABLE schools (
     id serial PRIMARY KEY,
     name text,
@@ -45,13 +47,8 @@ CREATE TABLE units (
     start_date date NOT NULL,
     end_date date NOT NULL,
     review_date date NOT NULL,
-    objectives json,
-    standards json,
-    formative json,
-    summative json,
-    collaboration json,
-    reflection text,
-    completed boolean
+    details jsonb,
+    completed boolean NOT NULL DEFAULT FALSE
 );
 
 INSERT INTO schools (name, district, state)

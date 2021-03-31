@@ -55,7 +55,7 @@ describe("getSubjects", function () {
         id: expect.any(Number),
         name: expect.any(String),
         grade: expect.any(String),
-        units: expect.any(Array)
+        units: expect.any(Array),
       })
     );
   });

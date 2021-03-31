@@ -46,13 +46,8 @@ CREATE TABLE units (
     start_date date NOT NULL,
     end_date date NOT NULL,
     review_date date NOT NULL,
-    objectives json,
-    standards json,
-    formative json,
-    summative json,
-    collaboration json,
-    reflection text,
-    completed boolean
+    details jsonb,
+    completed boolean NOT NULL DEFAULT FALSE
 );
 
 INSERT INTO schools (name, district, state)

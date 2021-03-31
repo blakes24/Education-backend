@@ -9,6 +9,7 @@ const ExpressError = require("./expressError");
 const { authenticateJWT } = require("./middleware/auth");
 const unitRoutes = require("./routes/unitRoutes");
 const loginRoute = require("./routes/loginRoute");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -20,10 +21,11 @@ app.use(morgan("dev"));
 
 app.use("/login", loginRoute);
 
+// all other routes require a token
 app.use(authenticateJWT);
 
 app.use("/unit", unitRoutes);
-
+app.use("/users", userRoutes);
 
 /** Handle 404 errors */
 app.use(function (req, res, next) {

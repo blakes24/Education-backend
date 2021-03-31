@@ -90,3 +90,30 @@ describe("POST /unit", function () {
     expect(resp.statusCode).toEqual(403);
   });
 });
+
+/************************************** GET /users/:userId/subjects */
+
+describe("GET /users/:userId/subjects", function () {
+  test("works", async function () {
+    const resp = await request(app)
+      .get("/users/1/subjects")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          name: expect.any(String),
+          grade: expect.any(String),
+          units: expect.any(Array),
+        }),
+      ])
+    );
+  });
+
+  test("unauth if wrong user", async function () {
+    const resp = await request(app)
+      .get("/users/2/subjects")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.statusCode).toEqual(403);
+  });
+});

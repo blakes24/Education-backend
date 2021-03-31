@@ -33,7 +33,24 @@ function ensureAdmin(req, res, next) {
   }
 }
 
+/** Middleware to ensure the user is an admin or fetching their own data. */
+
+function ensureUserOrAdmin(req, res, next) {
+  try {
+    if (
+      res.locals.user &&
+      (res.locals.user.userId === +req.params.userId || res.locals.user.admin)
+    ) {
+      return next();
+    }
+    throw new ExpressError("Not authorized", 403);
+  } catch (err) {
+    return next(err);
+  }
+}
+
 module.exports = {
   authenticateJWT,
   ensureAdmin,
+  ensureUserOrAdmin,
 };
