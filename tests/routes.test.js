@@ -2,6 +2,7 @@
 
 const request = require("supertest");
 const app = require("../app");
+const Unit = require("../models/unit");
 
 const {
   seedDatabase,
@@ -24,6 +25,17 @@ const unitData = {
   startDate: "2021-03-25",
   endDate: "2021-04-25",
   reviewDate: "2021-04-28",
+};
+
+const updateData = {
+  startDate: "2021-03-25",
+  endDate: "2021-04-25",
+  reviewDate: "2021-04-28",
+  completed: true,
+  details: {
+    reflection: "Students learned stuff",
+    objectives: ["Teach stuff"],
+  },
 };
 
 /************************************** POST /login */
@@ -64,12 +76,12 @@ describe("POST /login", function () {
   });
 });
 
-/************************************** POST /unit */
+/************************************** POST /units */
 
-describe("POST /unit", function () {
+describe("POST /units", function () {
   test("works", async function () {
     const resp = await request(app)
-      .post("/unit")
+      .post("/units")
       .send(unitData)
       .set("authorization", `Bearer ${adminJwt}`);
     expect(resp.body).toEqual(
@@ -84,10 +96,43 @@ describe("POST /unit", function () {
 
   test("unauth with non-admin", async function () {
     const resp = await request(app)
-      .post("/unit")
+      .post("/units")
       .send(unitData)
       .set("authorization", `Bearer ${testJwt}`);
     expect(resp.statusCode).toEqual(403);
+  });
+});
+
+/************************************** PATCH /units/:id */
+
+describe("PATCH /units", function () {
+  beforeEach(async () => {
+    await seedDatabase();
+    await Unit.create(unitData);
+  });
+
+  test("works", async function () {
+    const resp = await request(app)
+      .patch("/units/1")
+      .send(updateData)
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.body).toEqual(
+      expect.objectContaining({
+        id: 1,
+        details: {
+          reflection: "Students learned stuff",
+          objectives: ["Teach stuff"],
+        },
+      })
+    );
+  });
+
+  test("404 if unit does not exist", async function () {
+    const resp = await request(app)
+      .patch("/units/999")
+      .send(updateData)
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.statusCode).toEqual(404);
   });
 });
 

@@ -1,6 +1,7 @@
-'use strict';
+"use strict";
 
-const db = require('../db');
+const db = require("../db");
+const ExpressError = require("../expressError");
 
 /** Methods for units. */
 
@@ -40,6 +41,41 @@ class Unit {
       [subjectId, number, title, startDate, endDate, reviewDate]
     );
     const unit = result.rows[0];
+
+    return unit;
+  }
+
+  /** Update a unit.
+   *
+   * data should be {startDate, endDate, reviewDate, completed, details}, id
+   *
+   * Returns unit
+   *
+   * */
+
+  static async update(
+    { startDate, endDate, reviewDate, completed, details },
+    id
+  ) {
+    const result = await db.query(
+      `UPDATE units
+           SET start_date=$1, end_date=$2, review_date=$3, completed=$4, details=$5
+           WHERE id=$6
+           RETURNING
+            id,
+            subject_id AS "subjectId",
+            number,
+            title,
+            start_date AS "startDate",
+            end_date AS "endDate",
+            review_date AS "reviewDate",
+            details,
+            completed`,
+      [startDate, endDate, reviewDate, completed, details, id]
+    );
+    const unit = result.rows[0];
+
+    if (!unit) throw new ExpressError("Unit not found", 404);
 
     return unit;
   }
