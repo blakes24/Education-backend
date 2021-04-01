@@ -24,7 +24,7 @@ app.use("/login", loginRoute);
 // all other routes require a token
 app.use(authenticateJWT);
 
-app.use("/unit", unitRoutes);
+app.use("/units", unitRoutes);
 app.use("/users", userRoutes);
 
 /** Handle 404 errors */
