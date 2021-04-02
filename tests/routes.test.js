@@ -3,6 +3,26 @@
 const request = require("supertest");
 const app = require("../app");
 const Unit = require("../models/unit");
+const axios = require("axios");
+
+jest.mock("axios");
+
+const fakeResponse = {
+  data: {
+    data: {
+      standards: {
+        1: {
+          id: 1,
+          description: "Count to 10",
+        },
+        2: {
+          id: 2,
+          description: "Add numbers",
+        },
+      },
+    },
+  },
+};
 
 const {
   seedDatabase,
@@ -160,5 +180,24 @@ describe("GET /users/:userId/subjects", function () {
       .get("/users/2/subjects")
       .set("authorization", `Bearer ${testJwt}`);
     expect(resp.statusCode).toEqual(403);
+  });
+});
+
+/************************************** GET /standards/:code */
+
+describe("GET /standards/:code", function () {
+  beforeEach(axios.get.mockResolvedValue(fakeResponse));
+  test("works", async function () {
+    const resp = await request(app)
+      .get("/standards/123")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          description: expect.any(String),
+        }),
+      ])
+    );
   });
 });

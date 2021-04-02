@@ -5,6 +5,7 @@
 require("dotenv").config();
 
 const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
+const API_KEY = process.env.API_KEY;
 
 const PORT = +process.env.PORT || 3001;
 
@@ -20,4 +21,5 @@ module.exports = {
   PORT,
   BCRYPT_WORK_FACTOR,
   DB_URI,
+  API_KEY,
 };
