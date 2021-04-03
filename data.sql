@@ -64,3 +64,4 @@ INSERT INTO subjects (name, grade, school_id, standards_code)
 
 INSERT INTO users_subjects (user_id, subject_id)
     VALUES (1, 1), (2, 1), (1, 2), (2, 2), (1, 3), (2, 3), (3, 4), (4, 1), (4, 2), (4, 3), (4, 4);
+

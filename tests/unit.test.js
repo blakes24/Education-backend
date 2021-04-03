@@ -43,6 +43,7 @@ describe("create unit", function () {
         subjectId: 1,
         number: 1,
         title: "Test",
+        startDate: "2021-03-25",
       })
     );
   });
@@ -61,6 +62,7 @@ describe("update unit", function () {
         number: 1,
         title: "Test",
         completed: true,
+        startDate: "2021-03-25",
         details: {
           reflection: "Students learned stuff",
           objectives: ["Teach stuff"],
