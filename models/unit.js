@@ -79,6 +79,33 @@ class Unit {
 
     return unit;
   }
+
+  /** Get a unit by id. Returns unit. */
+
+  static async get(id) {
+    const result = await db.query(
+      `SELECT
+          id,
+          subject_id AS "subjectId",
+          number,
+          title,
+          to_char(start_date, 'YYYY-MM-DD') AS "startDate",
+          to_char(end_date, 'YYYY-MM-DD') AS "endDate",
+          to_char(review_date, 'YYYY-MM-DD') AS "reviewDate",
+          details,
+          completed
+      FROM
+          units
+      WHERE
+          units.id = $1`,
+      [id]
+    );
+    const unit = result.rows[0];
+
+    if (!unit) throw new ExpressError("Unit not found", 404);
+
+    return unit;
+  }
 }
 
 module.exports = Unit;

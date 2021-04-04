@@ -71,3 +71,23 @@ describe("update unit", function () {
     );
   });
 });
+
+describe("get unit", function () {
+  beforeEach(async () => {
+    await Unit.create(unitData);
+  });
+
+  test("works", async function () {
+    const unit = await Unit.get(1);
+    expect(unit).toEqual(
+      expect.objectContaining({
+        subjectId: 1,
+        number: 1,
+        title: "Test",
+        completed: false,
+        startDate: "2021-03-25",
+        details: null,
+      })
+    );
+  });
+});

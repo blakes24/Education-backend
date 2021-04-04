@@ -39,4 +39,15 @@ router.patch("/:id", async function (req, res, next) {
   }
 });
 
+/** GET /units/:id  id => { unit } */
+
+router.get("/:id", async function (req, res, next) {
+  try {
+    const unit = await Unit.get(+req.params.id);
+    return res.status(200).json(unit);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;

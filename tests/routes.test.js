@@ -96,6 +96,36 @@ describe("POST /login", function () {
   });
 });
 
+/************************************** GET /units/:id */
+
+describe("GET /units/:id", function () {
+  beforeEach(async () => {
+    await seedDatabase();
+    await Unit.create(unitData);
+  });
+
+  test("works", async function () {
+    const resp = await request(app)
+      .get("/units/1")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.body).toEqual(
+      expect.objectContaining({
+        id: 1,
+        subjectId: 1,
+        number: 1,
+        title: "Test",
+      })
+    );
+  });
+
+  test("404 if unit does not exist", async function () {
+    const resp = await request(app)
+      .get("/units/99")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.statusCode).toEqual(404);
+  });
+});
+
 /************************************** POST /units */
 
 describe("POST /units", function () {
