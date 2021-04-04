@@ -55,7 +55,7 @@ class User {
           s.name,
           s.grade,
           s.standards_code AS "standardsCode",
-          COALESCE(json_agg(json_build_object('id', u.id, 'number', u.number, 'title', u.title, 'startDate', u.start_date, 'endDate', u.end_date, 'reviewDate', u.review_date, 'completed', u.completed, 'details', u.details)) FILTER (WHERE u.id IS NOT NULL), '[]') AS units
+          COALESCE(json_agg(json_build_object('id', u.id, 'number', u.number, 'title', u.title, 'startDate', u.start_date, 'endDate', u.end_date, 'reviewDate', u.review_date, 'completed', u.completed)) FILTER (WHERE u.id IS NOT NULL), '[]') AS units
       FROM
           users_subjects AS us
           JOIN subjects AS s ON us.subject_id = s.id
