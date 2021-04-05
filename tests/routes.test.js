@@ -112,6 +112,7 @@ describe("GET /units/:id", function () {
       expect.objectContaining({
         id: 1,
         subjectId: 1,
+        subjectName: "ELA",
         number: 1,
         title: "Test",
       })

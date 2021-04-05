@@ -85,19 +85,22 @@ class Unit {
   static async get(id) {
     const result = await db.query(
       `SELECT
-          id,
-          subject_id AS "subjectId",
-          number,
-          title,
-          to_char(start_date, 'YYYY-MM-DD') AS "startDate",
-          to_char(end_date, 'YYYY-MM-DD') AS "endDate",
-          to_char(review_date, 'YYYY-MM-DD') AS "reviewDate",
-          details,
-          completed
+          u.id,
+          u.subject_id AS "subjectId",
+          s.name AS "subjectName",
+          s.standards_code AS "standardsCode",
+          u.number,
+          u.title,
+          to_char(u.start_date, 'YYYY-MM-DD') AS "startDate",
+          to_char(u.end_date, 'YYYY-MM-DD') AS "endDate",
+          to_char(u.review_date, 'YYYY-MM-DD') AS "reviewDate",
+          u.details,
+          u.completed
       FROM
-          units
+          units AS u
+          JOIN subjects AS s ON u.subject_id = s.id
       WHERE
-          units.id = $1`,
+          u.id = $1`,
       [id]
     );
     const unit = result.rows[0];
