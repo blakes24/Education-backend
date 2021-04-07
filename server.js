@@ -1,9 +1,9 @@
 "use strict";
 
 /** Server for education. */
-
+const { PORT } = require("./config");
 const app = require("./app");
 
-app.listen(3001, () => {
-  console.log(`Server starting on port 3001`);
+app.listen(PORT, () => {
+  console.log(`Server starting on port ${PORT}`);
 });
