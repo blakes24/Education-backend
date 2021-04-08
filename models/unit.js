@@ -88,7 +88,7 @@ class Unit {
           u.id,
           u.subject_id AS "subjectId",
           s.name AS "subjectName",
-          s.standards_code AS "standardsCode",
+          s.set_id AS "setId",
           u.number,
           u.title,
           to_char(u.start_date, 'YYYY-MM-DD') AS "startDate",
