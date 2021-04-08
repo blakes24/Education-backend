@@ -3,19 +3,18 @@
 /** Routes for units. */
 
 const express = require("express");
-
-const { fetchStandards } = require("../helpers");
+const Standard = require("../models/standard");
 
 const router = new express.Router();
 
-/** GET /standards/:code
+/** GET /standards/:setId
  *
- * returns standards array
+ * returns a set of standards
  */
 
-router.get("/:code", async function (req, res, next) {
+router.get("/:setId", async function (req, res, next) {
   try {
-    const standards = await fetchStandards(req.params.code);
+    const standards = await Standard.getSet(+req.params.setId);
     return res.status(200).json(standards);
   } catch (err) {
     return next(err);
