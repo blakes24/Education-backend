@@ -11,7 +11,7 @@ class Standard {
   static async getSet(id) {
     const result = await db.query(
       `SELECT
-          code, description
+          id, code, description
       FROM
           standards
       WHERE
