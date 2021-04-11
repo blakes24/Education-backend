@@ -1,4 +1,3 @@
-\c education 
 DROP TABLE IF EXISTS users CASCADE;
 
 DROP TABLE IF EXISTS schools CASCADE;
@@ -50,7 +49,7 @@ CREATE TABLE subjects (
     name text NOT NULL,
     grade text NOT NULL,
     school_id integer NOT NULL REFERENCES schools ON DELETE CASCADE,
-     set_id integer NOT NULL REFERENCES standards_sets ON DELETE CASCADE
+    set_id integer NOT NULL REFERENCES standards_sets ON DELETE CASCADE
 );
 
 CREATE TABLE users_subjects (
