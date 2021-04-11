@@ -204,6 +204,7 @@ describe("GET /standards/:setId", function () {
     expect(resp.body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
+          id: expect.any(Number),
           code: expect.any(String),
           description: expect.any(String),
         }),
