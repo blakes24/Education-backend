@@ -212,3 +212,28 @@ describe("GET /standards/:setId", function () {
     );
   });
 });
+
+/************************************** GET /questions/:subjectId */
+
+describe("GET /questions/:subjectId", function () {
+  test("works", async function () {
+    const resp = await request(app)
+      .get("/questions/1")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          text: expect.any(String),
+        }),
+      ])
+    );
+  });
+
+  test("404 if no questions found", async function () {
+    const resp = await request(app)
+      .get("/questions/999")
+      .set("authorization", `Bearer ${testJwt}`);
+    expect(resp.statusCode).toEqual(404);
+  });
+});

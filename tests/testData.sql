@@ -12,6 +12,12 @@ DROP TABLE IF EXISTS standards CASCADE;
 
 DROP TABLE IF EXISTS standards_sets CASCADE;
 
+DROP TABLE IF EXISTS questions_schools CASCADE;
+
+DROP TABLE IF EXISTS questions_subjects CASCADE;
+
+DROP TABLE IF EXISTS questions CASCADE;
+
 CREATE TABLE schools (
     id serial PRIMARY KEY,
     name text NOT NULL,
@@ -49,7 +55,7 @@ CREATE TABLE subjects (
     name text NOT NULL,
     grade text NOT NULL,
     school_id integer NOT NULL REFERENCES schools ON DELETE CASCADE,
-     set_id integer NOT NULL REFERENCES standards_sets ON DELETE CASCADE
+    set_id integer NOT NULL REFERENCES standards_sets ON DELETE CASCADE
 );
 
 CREATE TABLE users_subjects (
@@ -70,6 +76,23 @@ CREATE TABLE units (
     completed boolean NOT NULL DEFAULT FALSE
 );
 
+CREATE TABLE questions (
+    id serial PRIMARY KEY,
+    text text NOT NULL
+);
+
+CREATE TABLE questions_subjects (
+    id serial PRIMARY KEY,
+    question_id integer NOT NULL REFERENCES questions ON DELETE CASCADE,
+    subject_id integer NOT NULL REFERENCES subjects ON DELETE CASCADE
+);
+
+CREATE TABLE questions_schools (
+    id serial PRIMARY KEY,
+    question_id integer NOT NULL REFERENCES questions ON DELETE CASCADE,
+    school_id integer NOT NULL REFERENCES schools ON DELETE CASCADE
+);
+
 INSERT INTO schools (name, district, state, jurisdiction_code)
     VALUES ('Cielo Azul', 'Rio Rancho', 'New Mexico', 'C558A97651934F3989D0D0A41196060C');
 
@@ -84,6 +107,12 @@ INSERT INTO subjects (name, grade, school_id, set_id)
 
 INSERT INTO users_subjects (user_id, subject_id)
     VALUES (1, 1), (2, 1), (1, 2), (2, 2), (1, 3), (2, 3), (3, 4), (4, 1), (4, 2), (4, 3), (4, 4);
+
+INSERT INTO questions (text)
+    VALUES ('What skills are the students excelling at?'), ('What skills are the students struggling with?'), ('What are our common instructional commitments?'), ('How will we extend based on mastery?'), ('How will we intervene for students who are below proficient?');
+
+INSERT INTO questions_schools (question_id, school_id)
+    VALUES (1,1), (2,1), (3,1), (4,1), (5,1);
 
 INSERT INTO standards (code, description, set_id)
     VALUES ('CCSS.ELA-Literacy.L.5.5b',

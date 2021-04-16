@@ -11,6 +11,7 @@ const unitRoutes = require("./routes/unitRoutes");
 const loginRoute = require("./routes/loginRoute");
 const userRoutes = require("./routes/userRoutes");
 const standardsRoutes = require("./routes/standardsRoutes");
+const questionRoutes = require("./routes/questionRoutes");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(authenticateJWT);
 app.use("/units", unitRoutes);
 app.use("/users", userRoutes);
 app.use("/standards", standardsRoutes);
+app.use("/questions", questionRoutes);
 
 /** Handle 404 errors */
 app.use(function (req, res, next) {

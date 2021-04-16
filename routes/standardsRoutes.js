@@ -1,6 +1,6 @@
 "use strict";
 
-/** Routes for units. */
+/** Routes for standards. */
 
 const express = require("express");
 const Standard = require("../models/standard");
