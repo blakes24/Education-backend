@@ -16,15 +16,15 @@ class Question {
         WHERE qs.subject_id = $1`,
       [subjectId]
     );
-    const questions = result.rows;
+    const subjectQuestions = result.rows;
 
     // check for school questions if no subject questions are found
-    if (questions.length === 0) {
+    if (!subjectQuestions.length) {
       const schoolQuestions = await Question.getSchoolSet(subjectId);
       return schoolQuestions;
     }
 
-    return questions;
+    return subjectQuestions;
   }
 
   /** Get questions associated with a school */
@@ -39,8 +39,7 @@ class Question {
     );
     const questions = result.rows;
 
-    if (questions.length === 0)
-      throw new ExpressError("questions not found", 404);
+    if (!questions.length) throw new ExpressError("No questions found", 404);
 
     return questions;
   }

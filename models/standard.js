@@ -20,8 +20,9 @@ class Standard {
     );
     const standardsSet = result.rows;
 
-    if (standardsSet.length === 0)
+    if (!standardsSet.length) {
       throw new ExpressError("standards not found", 404);
+    }
 
     return standardsSet;
   }

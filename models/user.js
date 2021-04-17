@@ -69,7 +69,7 @@ class User {
 
     const subjects = result.rows;
 
-    if (subjects.length === 0) throw new ExpressError("No subjects found", 404);
+    if (!subjects.length) throw new ExpressError("No subjects found", 404);
 
     return subjects;
   }
