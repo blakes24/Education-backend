@@ -72,7 +72,8 @@ CREATE TABLE units (
     start_date date NOT NULL,
     end_date date NOT NULL,
     review_date date NOT NULL,
-    details jsonb,
+    planning jsonb NOT NULL DEFAULT '{}'::jsonb,
+    collaboration jsonb NOT NULL DEFAULT '{}'::jsonb,
     completed boolean NOT NULL DEFAULT FALSE
 );
 

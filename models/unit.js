@@ -36,7 +36,8 @@ class Unit {
             to_char(start_date, 'YYYY-MM-DD') AS "startDate",
             to_char(end_date, 'YYYY-MM-DD') AS "endDate",
             to_char(review_date, 'YYYY-MM-DD') AS "reviewDate",
-            details,
+            planning,
+            collaboration,
             completed`,
       [subjectId, number, title, startDate, endDate, reviewDate]
     );
@@ -47,20 +48,20 @@ class Unit {
 
   /** Update a unit.
    *
-   * data should be {startDate, endDate, reviewDate, completed, details}, id
+   * data should be {startDate, endDate, reviewDate, completed, planning, collaboration}, id
    *
    * Returns unit
    *
    * */
 
   static async update(
-    { startDate, endDate, reviewDate, completed, details },
+    { startDate, endDate, reviewDate, completed, planning, collaboration },
     id
   ) {
     const result = await db.query(
       `UPDATE units
-           SET start_date=$1, end_date=$2, review_date=$3, completed=$4, details=$5
-           WHERE id=$6
+           SET start_date=$1, end_date=$2, review_date=$3, completed=$4, planning=$5, collaboration=$6
+           WHERE id=$7
            RETURNING
             id,
             subject_id AS "subjectId",
@@ -69,9 +70,10 @@ class Unit {
             to_char(start_date, 'YYYY-MM-DD') AS "startDate",
             to_char(end_date, 'YYYY-MM-DD') AS "endDate",
             to_char(review_date, 'YYYY-MM-DD') AS "reviewDate",
-            details,
+            planning,
+            collaboration,
             completed`,
-      [startDate, endDate, reviewDate, completed, details, id]
+      [startDate, endDate, reviewDate, completed, planning, collaboration, id]
     );
     const unit = result.rows[0];
 
@@ -94,7 +96,8 @@ class Unit {
           to_char(u.start_date, 'YYYY-MM-DD') AS "startDate",
           to_char(u.end_date, 'YYYY-MM-DD') AS "endDate",
           to_char(u.review_date, 'YYYY-MM-DD') AS "reviewDate",
-          u.details,
+          u.planning,
+          u.collaboration,
           u.completed
       FROM
           units AS u

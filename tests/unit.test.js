@@ -26,9 +26,11 @@ const updateData = {
   endDate: "2021-04-25",
   reviewDate: "2021-04-28",
   completed: true,
-  details: {
+  planning: {
+    objectives: "Teach stuff",
+  },
+  collaboration: {
     reflection: "Students learned stuff",
-    objectives: ["Teach stuff"],
   },
 };
 
@@ -63,9 +65,11 @@ describe("update unit", function () {
         title: "Test",
         completed: true,
         startDate: "2021-03-25",
-        details: {
+        planning: {
+          objectives: "Teach stuff",
+        },
+        collaboration: {
           reflection: "Students learned stuff",
-          objectives: ["Teach stuff"],
         },
       })
     );
@@ -86,7 +90,8 @@ describe("get unit", function () {
         title: "Test",
         completed: false,
         startDate: "2021-03-25",
-        details: null,
+        planning: {},
+        collaboration: {},
       })
     );
   });

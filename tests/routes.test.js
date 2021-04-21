@@ -32,9 +32,11 @@ const updateData = {
   endDate: "2021-04-25",
   reviewDate: "2021-04-28",
   completed: true,
-  details: {
+  planning: {
+    objectives: "Teach stuff",
+  },
+  collaboration: {
     reflection: "Students learned stuff",
-    objectives: ["Teach stuff"],
   },
 };
 
@@ -150,9 +152,11 @@ describe("PATCH /units", function () {
     expect(resp.body).toEqual(
       expect.objectContaining({
         id: 1,
-        details: {
+        planning: {
+          objectives: "Teach stuff",
+        },
+        collaboration: {
           reflection: "Students learned stuff",
-          objectives: ["Teach stuff"],
         },
       })
     );
